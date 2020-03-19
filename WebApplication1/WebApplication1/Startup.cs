@@ -16,6 +16,15 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             //REGISTER DEPENDENT TYPES (SERVICES) WITH IOC CONTAINERS HERE
+            services.AddSingleton<ILog, ConsoleLog>();
+            services.Add(new ServiceDescriptor(typeof(ILog), new ConsoleLog()));        //registers as singleton -- only one instance is created 
+
+            services.AddTransient<ILog, ConsoleLog>();
+            services.Add(new ServiceDescriptor(typeof(ILog), new ConsoleLog()));        //registers as transient -- creates a new instance upon each time its asked
+
+            services.AddScoped<ILog, ConsoleLog>();
+            services.Add(new ServiceDescriptor(typeof(ILog), new ConsoleLog()));        //registers as scoped    -- instance is created and used once per request
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
