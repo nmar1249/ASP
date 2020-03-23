@@ -30,17 +30,27 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseWelcomePage();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("1st middleware");
+
+                await next();
+            });
+
             //CONFIGURE HTTP REQUEST PIPELINE (MIDDLEWARE) HERE
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.Run(MyMiddleware);
+        }
+
+        private async Task MyMiddleware(HttpContext context)
+        {
+            await context.Response.WriteAsync("2nd middleware");
         }
     }
 }
