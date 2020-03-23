@@ -30,7 +30,14 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseWelcomePage();
+
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("home.html");
+            app.UseDefaultFiles(options);
+
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
