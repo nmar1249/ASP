@@ -32,5 +32,10 @@ namespace WebApplication1
 
             return View();
         }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Content\css\" />
-    <Folder Include="Content\html\" />
-    <Folder Include="Content\js\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\html\" />
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Default.html" />
   </ItemGroup>
 
   <ItemGroup>
