@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Serilog.Extensions.Logging;
+
 
 namespace WebApplication1
 {
@@ -33,6 +35,8 @@ namespace WebApplication1
         //configure with logger
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
+
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions()
