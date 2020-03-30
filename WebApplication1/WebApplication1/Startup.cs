@@ -30,33 +30,6 @@ namespace WebApplication1
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            //combines functionality of UseDefaultFiles and UseStaticFiles
-            app.UseFileServer();
-
-            if (env.IsDevelopment() || env.IsStaging())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.Use(async (context, next) =>
-            {
-                await context.Response.WriteAsync("1st middleware");
-
-                await next();
-            });
-
-            //CONFIGURE HTTP REQUEST PIPELINE (MIDDLEWARE) HERE
-
-            app.Run(MyMiddleware);
-        }
-
         //configure with logger
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
@@ -68,10 +41,7 @@ namespace WebApplication1
                 RequestPath = new PathString("/Admin")
             });
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Test");
-            });
+            app.Run(MyMiddleware);
         }
 
         private async Task MyMiddleware(HttpContext context)
