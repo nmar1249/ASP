@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication1
 {
@@ -52,6 +55,23 @@ namespace WebApplication1
             //CONFIGURE HTTP REQUEST PIPELINE (MIDDLEWARE) HERE
 
             app.Run(MyMiddleware);
+        }
+
+        //configure with logger
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+                RequestPath = new PathString("/Admin")
+            });
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Test");
+            });
         }
 
         private async Task MyMiddleware(HttpContext context)
